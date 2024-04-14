@@ -103,6 +103,39 @@ public class ClientHandler implements Runnable {
                             responseMessage = new SimpleKVMessage(StatusType.SERVER_STOPPED, null);
                         }
                         SimpleKVCommunication.sendMessage(responseMessage, output, LOGGER);
+                    
+                    // CREATE USER LOGIN 
+                    } else if (requestMessage.getStatus() == StatusType.CREATE){
+                        try {
+                            String username = requestMessage.getKey();
+                            String password = requestMessage.getValue();
+                            System.out.println("ClientHandler, username: " + username);
+                            System.out.println("ClientHandler, password: " + password);
+
+                            server.createUser(username, password);
+                            responseMessage = new SimpleKVMessage(StatusType.CREATE_SUCCESS, null);
+                        } catch (Exception e) {
+                            LOGGER.error("Error processing user creation", e);
+                            responseMessage = new SimpleKVMessage(StatusType.CREATE_ERROR, null);
+                        }
+                        SimpleKVCommunication.sendMessage(responseMessage, output, LOGGER);
+                    } else if (requestMessage.getStatus() == StatusType.LOGIN){
+                        try {
+                            String username = requestMessage.getKey();
+                            String password = requestMessage.getValue();
+                            boolean loginSuccess = server.authenticateUser(username, password);
+                            responseMessage = loginSuccess ? new SimpleKVMessage(StatusType.LOGIN_SUCCESS, null) : new SimpleKVMessage(StatusType.LOGIN_ERROR, null);
+                        } catch (Exception e) {
+                            LOGGER.error("Error processing login", e);
+                            responseMessage = new SimpleKVMessage(StatusType.LOGIN_ERROR, null);
+                        }
+                        SimpleKVCommunication.sendMessage(responseMessage, output, LOGGER);
+
+                    } else if (requestMessage.getStatus() == StatusType.LOGOUT){
+                         // Handle logout - depending on how you manage sessions this might just be confirming the action.
+                        responseMessage = new SimpleKVMessage(StatusType.LOGOUT_SUCCESS, null);
+                        SimpleKVCommunication.sendMessage(responseMessage, output, LOGGER);
+                    
 
                     // PUT/GET requests
                     } else {
@@ -121,38 +154,6 @@ public class ClientHandler implements Runnable {
                         if (isResponsible == true) {
                             System.out.println("KEY IN RANGE CONFIRMED");
                             switch (requestMessage.getStatus()) {
-                                // M4 // 
-                                case CREATE:
-                                    try {
-                                        String username = requestMessage.getKey();
-                                        String password = requestMessage.getValue();
-                                        server.createUser(username, password);
-                                        responseMessage = new SimpleKVMessage(StatusType.CREATE_SUCCESS, null);
-                                    } catch (Exception e) {
-                                        LOGGER.error("Error processing user creation", e);
-                                        responseMessage = new SimpleKVMessage(StatusType.CREATE_ERROR, null);
-                                    }
-                                    SimpleKVCommunication.sendMessage(responseMessage, output, LOGGER);
-                                
-                                case LOGIN: 
-                                    try {
-                                        String username = requestMessage.getKey();
-                                        String password = requestMessage.getValue();
-                                        boolean loginSuccess = server.authenticateUser(username, password);
-                                        responseMessage = loginSuccess ? new SimpleKVMessage(StatusType.LOGIN_SUCCESS, null) :
-                                                                        new SimpleKVMessage(StatusType.LOGIN_ERROR, null);
-                                    } catch (Exception e) {
-                                        LOGGER.error("Error processing login", e);
-                                        responseMessage = new SimpleKVMessage(StatusType.LOGIN_ERROR, null);
-                                    }
-                                    SimpleKVCommunication.sendMessage(responseMessage, output, LOGGER);
-                                
-                                case LOGOUT: 
-                                    // Handle logout - depending on how you manage sessions this might just be confirming the action.
-                                    responseMessage = new SimpleKVMessage(StatusType.LOGOUT_SUCCESS, null);
-                                    SimpleKVCommunication.sendMessage(responseMessage, output, LOGGER);
-                                // M4 // 
-
                                 case PUT:
                                     try {
                                         StatusType responseType;

@@ -30,7 +30,6 @@ public class KVClient implements IKVClient {
 	private int serverPort;
 
     private KVStore kvStore = null;
-
 	private boolean isLoggedIn = false;
 
 
@@ -207,7 +206,7 @@ public class KVClient implements IKVClient {
 			printHelp();
         
 			/* M4 Implementation */
-		} else if (tokens[0].equals("create_user")) {
+		} else if (tokens[0].equals("create")) {
 			if (tokens.length == 3) {
 				String username = tokens[1];
 				String password = tokens[2];

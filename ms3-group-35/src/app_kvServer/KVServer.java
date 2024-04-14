@@ -645,6 +645,13 @@ public class KVServer implements IKVServer {
 			System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
 		}
 	}
+
+	private void printCredContents() {
+		System.out.println("Current Storage Contents:");
+		for (Map.Entry<String, String> entry : userCredStorage.entrySet()) {
+			System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+		}
+	}
 	
 	
 	private void loadDataFromStorage() {
@@ -825,11 +832,18 @@ public class KVServer implements IKVServer {
 	}
 
 	public void createUser(String username, String password) throws Exception {
-		String hashedPassword = hashPassword(password);
+		System.out.println("KVServer, USER RECIEVED: " + username); 
+		System.out.println("KVSerer, PWD RECIEVED:" + password);
+		// String hashedPassword = hashPassword(password);
+		// System.out.print("HASHED PWD: "+ hashedPassword);
 		if (userCredStorage.containsKey(username)) {
 			throw new Exception("User already exists.");
 		}
-		userCredStorage.put(username, hashedPassword);
+		System.out.println("..inidcator 1...");
+		userCredStorage.put(username, password);
+		System.out.println("KVServer, Successfully put the cred info");
+		saveUserCredentials();
+		printCredContents(); 
 	}
 	
 	public boolean authenticateUser(String username, String password) throws Exception {
