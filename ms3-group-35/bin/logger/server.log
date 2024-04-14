@@ -1,0 +1,268 @@
+Apr. 13, 2024 6:23:55 P.M. app_kvServer.KVServer run
+INFO: KV Server listening on port 50000
+Apr. 13, 2024 10:55:45 P.M. app_kvServer.KVServer run
+INFO: KV Server listening on port 50000
+Apr. 13, 2024 10:55:45 P.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 13, 2024 10:55:45 P.M. app_kvServer.KVServer handleECSCommand
+INFO: Write lock set to: true
+Apr. 13, 2024 10:55:45 P.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 13, 2024 10:55:45 P.M. app_kvServer.KVServer handleECSCommand
+INFO: Key range updated: [2b786438d2c6425dc30de0077ea6494d, 2b786438d2c6425dc30de0077ea6494d]
+Apr. 13, 2024 10:55:45 P.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 13, 2024 10:55:45 P.M. app_kvServer.KVServer handleECSCommand
+INFO: Metadata updated.
+Apr. 13, 2024 10:55:45 P.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 13, 2024 10:55:45 P.M. app_kvServer.KVServer handleECSCommand
+INFO: Key range updated: [2b786438d2c6425dc30de0077ea6494d, 2b786438d2c6425dc30de0077ea6494d]
+Apr. 13, 2024 10:55:45 P.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 13, 2024 10:55:45 P.M. app_kvServer.KVServer handleECSCommand
+INFO: Write lock set to: false
+Apr. 13, 2024 10:56:03 P.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 13, 2024 10:56:05 P.M. app_kvServer.KVServer handleIncomingConnection
+INFO: Handling client connection
+Apr. 13, 2024 10:56:05 P.M. app_kvServer.KVServer putKV
+INFO: Storage updated for key: hi
+Apr. 13, 2024 10:56:05 P.M. app_kvServer.KVServer updateCache
+INFO: UPDATING CACHE
+Apr. 13, 2024 10:56:05 P.M. app_kvServer.KVServer getCacheStrategy
+INFO: getCacheStrategy: FIFO
+Apr. 13, 2024 10:56:05 P.M. app_kvServer.KVServer updateCache
+INFO: Update FIFO: Put Key: hi with value:hello
+Apr. 13, 2024 10:56:05 P.M. app_kvServer.KVServer putKV
+INFO: Cache updated for key: hi
+Apr. 13, 2024 10:56:05 P.M. app_kvServer.KVServer saveDataToStorage
+INFO: Storage data saved to file
+Apr. 14, 2024 11:51:45 A.M. app_kvServer.KVServer run
+INFO: KV Server listening on port 50000
+Apr. 14, 2024 11:51:45 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:51:45 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Write lock set to: true
+Apr. 14, 2024 11:51:45 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:51:45 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Key range updated: [2b786438d2c6425dc30de0077ea6494d, 2b786438d2c6425dc30de0077ea6494d]
+Apr. 14, 2024 11:51:45 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:51:45 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Metadata updated.
+Apr. 14, 2024 11:51:45 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:51:45 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Key range updated: [2b786438d2c6425dc30de0077ea6494d, 2b786438d2c6425dc30de0077ea6494d]
+Apr. 14, 2024 11:51:45 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:51:45 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Write lock set to: false
+Apr. 14, 2024 11:51:53 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:51:55 A.M. app_kvServer.KVServer handleIncomingConnection
+INFO: Handling client connection
+Apr. 14, 2024 11:51:55 A.M. app_kvServer.KVServer putKV
+INFO: Storage updated for key: hi
+Apr. 14, 2024 11:51:55 A.M. app_kvServer.KVServer updateCache
+INFO: UPDATING CACHE
+Apr. 14, 2024 11:51:55 A.M. app_kvServer.KVServer getCacheStrategy
+INFO: getCacheStrategy: FIFO
+Apr. 14, 2024 11:51:55 A.M. app_kvServer.KVServer updateCache
+INFO: Update FIFO: Put Key: hi with value:hello
+Apr. 14, 2024 11:51:55 A.M. app_kvServer.KVServer putKV
+INFO: Cache updated for key: hi
+Apr. 14, 2024 11:51:55 A.M. app_kvServer.KVServer saveDataToStorage
+INFO: Storage data saved to file
+Apr. 14, 2024 11:52:55 A.M. app_kvServer.KVServer run
+INFO: KV Server listening on port 50000
+Apr. 14, 2024 11:52:55 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:52:55 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Write lock set to: true
+Apr. 14, 2024 11:52:55 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:52:55 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Key range updated: [2b786438d2c6425dc30de0077ea6494d, 2b786438d2c6425dc30de0077ea6494d]
+Apr. 14, 2024 11:52:55 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:52:55 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Metadata updated.
+Apr. 14, 2024 11:52:55 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:52:55 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Key range updated: [2b786438d2c6425dc30de0077ea6494d, 2b786438d2c6425dc30de0077ea6494d]
+Apr. 14, 2024 11:52:55 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:52:55 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Write lock set to: false
+Apr. 14, 2024 11:53:07 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:53:09 A.M. app_kvServer.KVServer handleIncomingConnection
+INFO: Handling client connection
+Apr. 14, 2024 11:53:09 A.M. app_kvServer.KVServer putKV
+INFO: Storage updated for key: hi
+Apr. 14, 2024 11:53:09 A.M. app_kvServer.KVServer updateCache
+INFO: UPDATING CACHE
+Apr. 14, 2024 11:53:09 A.M. app_kvServer.KVServer getCacheStrategy
+INFO: getCacheStrategy: FIFO
+Apr. 14, 2024 11:53:09 A.M. app_kvServer.KVServer updateCache
+INFO: Update FIFO: Put Key: hi with value:hello
+Apr. 14, 2024 11:53:09 A.M. app_kvServer.KVServer putKV
+INFO: Cache updated for key: hi
+Apr. 14, 2024 11:53:09 A.M. app_kvServer.KVServer saveDataToStorage
+INFO: Storage data saved to file
+Apr. 14, 2024 11:58:09 A.M. app_kvServer.KVServer run
+INFO: KV Server listening on port 50000
+Apr. 14, 2024 11:58:09 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:58:09 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Write lock set to: true
+Apr. 14, 2024 11:58:09 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:58:09 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Key range updated: [2b786438d2c6425dc30de0077ea6494d, 2b786438d2c6425dc30de0077ea6494d]
+Apr. 14, 2024 11:58:09 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:58:09 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Metadata updated.
+Apr. 14, 2024 11:58:09 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:58:09 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Key range updated: [2b786438d2c6425dc30de0077ea6494d, 2b786438d2c6425dc30de0077ea6494d]
+Apr. 14, 2024 11:58:09 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:58:09 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Write lock set to: false
+Apr. 14, 2024 11:58:16 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:58:18 A.M. app_kvServer.KVServer handleIncomingConnection
+INFO: Handling client connection
+Apr. 14, 2024 11:58:18 A.M. app_kvServer.KVServer putKV
+INFO: Storage updated for key: hi
+Apr. 14, 2024 11:58:18 A.M. app_kvServer.KVServer updateCache
+INFO: UPDATING CACHE
+Apr. 14, 2024 11:58:18 A.M. app_kvServer.KVServer getCacheStrategy
+INFO: getCacheStrategy: FIFO
+Apr. 14, 2024 11:58:18 A.M. app_kvServer.KVServer updateCache
+INFO: Update FIFO: Put Key: hi with value:hello
+Apr. 14, 2024 11:58:18 A.M. app_kvServer.KVServer putKV
+INFO: Cache updated for key: hi
+Apr. 14, 2024 11:58:18 A.M. app_kvServer.KVServer saveDataToStorage
+INFO: Storage data saved to file
+Apr. 14, 2024 11:59:41 A.M. app_kvServer.KVServer run
+INFO: KV Server listening on port 50000
+Apr. 14, 2024 11:59:41 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:59:41 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Write lock set to: true
+Apr. 14, 2024 11:59:41 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:59:41 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Key range updated: [2b786438d2c6425dc30de0077ea6494d, 2b786438d2c6425dc30de0077ea6494d]
+Apr. 14, 2024 11:59:41 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:59:41 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Metadata updated.
+Apr. 14, 2024 11:59:41 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:59:41 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Key range updated: [2b786438d2c6425dc30de0077ea6494d, 2b786438d2c6425dc30de0077ea6494d]
+Apr. 14, 2024 11:59:41 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:59:41 A.M. app_kvServer.KVServer handleECSCommand
+INFO: Write lock set to: false
+Apr. 14, 2024 11:59:49 A.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 11:59:53 A.M. app_kvServer.KVServer handleIncomingConnection
+INFO: Handling client connection
+Apr. 14, 2024 11:59:53 A.M. app_kvServer.KVServer putKV
+INFO: Storage updated for key: hi
+Apr. 14, 2024 11:59:53 A.M. app_kvServer.KVServer updateCache
+INFO: UPDATING CACHE
+Apr. 14, 2024 11:59:53 A.M. app_kvServer.KVServer getCacheStrategy
+INFO: getCacheStrategy: FIFO
+Apr. 14, 2024 11:59:53 A.M. app_kvServer.KVServer updateCache
+INFO: Update FIFO: Put Key: hi with value:hello
+Apr. 14, 2024 11:59:53 A.M. app_kvServer.KVServer putKV
+INFO: Cache updated for key: hi
+Apr. 14, 2024 11:59:53 A.M. app_kvServer.KVServer saveDataToStorage
+INFO: Storage data saved to file
+Apr. 14, 2024 12:02:27 P.M. app_kvServer.KVServer run
+INFO: KV Server listening on port 50000
+Apr. 14, 2024 12:02:27 P.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 12:02:27 P.M. app_kvServer.KVServer handleECSCommand
+INFO: Write lock set to: true
+Apr. 14, 2024 12:02:27 P.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 12:02:27 P.M. app_kvServer.KVServer handleECSCommand
+INFO: Key range updated: [2b786438d2c6425dc30de0077ea6494d, 2b786438d2c6425dc30de0077ea6494d]
+Apr. 14, 2024 12:02:27 P.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 12:02:27 P.M. app_kvServer.KVServer handleECSCommand
+INFO: Metadata updated.
+Apr. 14, 2024 12:02:27 P.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 12:02:27 P.M. app_kvServer.KVServer handleECSCommand
+INFO: Key range updated: [2b786438d2c6425dc30de0077ea6494d, 2b786438d2c6425dc30de0077ea6494d]
+Apr. 14, 2024 12:02:27 P.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 12:02:27 P.M. app_kvServer.KVServer handleECSCommand
+INFO: Write lock set to: false
+Apr. 14, 2024 12:02:34 P.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 12:02:36 P.M. app_kvServer.KVServer handleIncomingConnection
+INFO: Handling client connection
+Apr. 14, 2024 12:02:36 P.M. app_kvServer.KVServer putKV
+INFO: Storage updated for key: hi
+Apr. 14, 2024 12:02:36 P.M. app_kvServer.KVServer updateCache
+INFO: UPDATING CACHE
+Apr. 14, 2024 12:02:36 P.M. app_kvServer.KVServer getCacheStrategy
+INFO: getCacheStrategy: FIFO
+Apr. 14, 2024 12:02:36 P.M. app_kvServer.KVServer updateCache
+INFO: Update FIFO: Put Key: hi with value:hello
+Apr. 14, 2024 12:02:36 P.M. app_kvServer.KVServer putKV
+INFO: Cache updated for key: hi
+Apr. 14, 2024 12:02:36 P.M. app_kvServer.KVServer saveDataToStorage
+INFO: Storage data saved to file
+Apr. 14, 2024 12:04:11 P.M. app_kvServer.KVServer run
+INFO: KV Server listening on port 50000
+Apr. 14, 2024 12:04:11 P.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 12:04:11 P.M. app_kvServer.KVServer handleECSCommand
+INFO: Write lock set to: true
+Apr. 14, 2024 12:04:11 P.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 12:04:11 P.M. app_kvServer.KVServer handleECSCommand
+INFO: Key range updated: [2b786438d2c6425dc30de0077ea6494d, 2b786438d2c6425dc30de0077ea6494d]
+Apr. 14, 2024 12:04:11 P.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 12:04:11 P.M. app_kvServer.KVServer handleECSCommand
+INFO: Metadata updated.
+Apr. 14, 2024 12:04:11 P.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 12:04:11 P.M. app_kvServer.KVServer handleECSCommand
+INFO: Key range updated: [2b786438d2c6425dc30de0077ea6494d, 2b786438d2c6425dc30de0077ea6494d]
+Apr. 14, 2024 12:04:11 P.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 12:04:11 P.M. app_kvServer.KVServer handleECSCommand
+INFO: Write lock set to: false
+Apr. 14, 2024 12:04:21 P.M. app_kvServer.KVServer run
+INFO: Connection attempt from: /127.0.0.1
+Apr. 14, 2024 12:04:23 P.M. app_kvServer.KVServer handleIncomingConnection
+INFO: Handling client connection
+Apr. 14, 2024 12:04:23 P.M. app_kvServer.KVServer putKV
+INFO: Storage updated for key: hi
+Apr. 14, 2024 12:04:23 P.M. app_kvServer.KVServer updateCache
+INFO: UPDATING CACHE
+Apr. 14, 2024 12:04:23 P.M. app_kvServer.KVServer getCacheStrategy
+INFO: getCacheStrategy: FIFO
+Apr. 14, 2024 12:04:23 P.M. app_kvServer.KVServer updateCache
+INFO: Update FIFO: Put Key: hi with value:hello
+Apr. 14, 2024 12:04:23 P.M. app_kvServer.KVServer putKV
+INFO: Cache updated for key: hi
+Apr. 14, 2024 12:04:23 P.M. app_kvServer.KVServer saveDataToStorage
+INFO: Storage data saved to file
