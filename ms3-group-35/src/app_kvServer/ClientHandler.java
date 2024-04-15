@@ -133,18 +133,34 @@ public class ClientHandler implements Runnable {
                         SimpleKVCommunication.sendMessage(responseMessage, output, LOGGER);
 
                     //LOGOUT 
-                } else if (requestMessage.getStatus() == StatusType.LOGOUT) {
-                    try {
-                        // Assume additional cleanup or user session termination tasks are handled here.
-                        server.saveDataToStorage();  // Explicitly save all current data
-                        server.saveUserCredentials(); // Explicitly save all user credentials
-                        responseMessage = new SimpleKVMessage(StatusType.LOGOUT_SUCCESS, null);
-                        LOGGER.info("Logout successful, data saved.");
-                    } catch (Exception e) {
-                        LOGGER.error("Error during logout", e);
-                        responseMessage = new SimpleKVMessage(StatusType.LOGOUT_ERROR, null);
-                    }
-                    SimpleKVCommunication.sendMessage(responseMessage, output, LOGGER);          
+                    } else if (requestMessage.getStatus() == StatusType.LOGOUT) {
+                        try {
+                            // Assume additional cleanup or user session termination tasks are handled here.
+                            server.saveDataToStorage();  // Explicitly save all current data
+                            server.saveUserCredentials(); // Explicitly save all user credentials
+                            responseMessage = new SimpleKVMessage(StatusType.LOGOUT_SUCCESS, null);
+                            LOGGER.info("Logout successful, data saved.");
+                        } catch (Exception e) {
+                            LOGGER.error("Error during logout", e);
+                            responseMessage = new SimpleKVMessage(StatusType.LOGOUT_ERROR, null);
+                        }
+                        SimpleKVCommunication.sendMessage(responseMessage, output, LOGGER);     
+                    
+                    //RESET PASSWORD
+                    } else if (requestMessage.getStatus() == StatusType.RESET_PASSWORD) {
+                        try {
+                            String username = requestMessage.getKey();
+                            String password = requestMessage.getValue();
+                            System.out.println("ClientHandler, username: " + username);
+                            System.out.println("ClientHandler, password: " + password);
+
+                            server.updatePassword(username, password);
+                            responseMessage = new SimpleKVMessage(StatusType.RESET_PASSWORD_SUCCESS, null);
+                        } catch (Exception e) {
+                            LOGGER.error("Error processing password reset", e);
+                            responseMessage = new SimpleKVMessage(StatusType.RESET_PASSWORD_ERROR, null);
+                        }
+                        SimpleKVCommunication.sendMessage(responseMessage, output, LOGGER);          
                     
                     // PUT/GET requests
                     } else {

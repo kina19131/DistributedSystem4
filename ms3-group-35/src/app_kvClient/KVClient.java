@@ -31,11 +31,13 @@ public class KVClient implements IKVClient {
 
     private KVStore kvStore = null;
 	private boolean isLoggedIn = false;
+	private String user = null;
 
 
     @Override
     public void newConnection(String hostname, int port)  throws UnknownHostException, Exception {
         isLoggedIn = false;
+		user = null;
 		kvStore = new KVStore(hostname, port);
         kvStore.connect();
     }
@@ -81,7 +83,7 @@ public class KVClient implements IKVClient {
             printMsg("Disconnected from the server!");
 
         } else if(tokens[0].equals("put")) {
-			printMsg("isLoggedin:" + isLoggedIn);
+			// printMsg("isLoggedin:" + isLoggedIn);
 			if (isLoggedIn){
 				if(tokens.length >= 2) {                
 					if(kvStore != null && kvStore.isRunning()) {
@@ -119,33 +121,37 @@ public class KVClient implements IKVClient {
 				} else {
 					printError("Invalid number of parameters!");
 				}	
-			}
-            else{
+			} else{
 				printError("Not logged in, please login");
 			}
 		} else if(tokens[0].equals("get")) {
-            if(tokens.length == 2) {
-				if(kvStore != null && kvStore.isRunning()){
-					String key = tokens[1];
-					System.out.println("Preparing to call kvStore.get with key: " + key);
-                    try {
-                        KVMessage res = kvStore.get(key);
-						logger.info("Received response from server for GET request");
-						printMsg("Server response: " + res.getStatus());
-						printMsg("Retrieved Key: " + res);
-					} catch (SocketException e) {
-						printError("Server is down and has been disconnected!");
-						logger.info("Server is down and has been disconnected!", e);
-						disconnect();
-					} catch (Exception e) {
-                        printError("Unable to perform get request!");
-					    logger.error("Unable to perform get request!", e);
-                    }
+			if (isLoggedIn){
+				if(tokens.length == 2) {
+					if(kvStore != null && kvStore.isRunning()){
+						String key = tokens[1];
+						System.out.println("Preparing to call kvStore.get with key: " + key);
+						try {
+							KVMessage res = kvStore.get(key);
+							logger.info("Received response from server for GET request");
+							printMsg("Server response: " + res.getStatus());
+							printMsg("Retrieved Key: " + res);
+						} catch (SocketException e) {
+							printError("Server is down and has been disconnected!");
+							logger.info("Server is down and has been disconnected!", e);
+							disconnect();
+						} catch (Exception e) {
+							printError("Unable to perform get request!");
+							logger.error("Unable to perform get request!", e);
+						}
+					} else {
+						printError("Not connected!");
+					}
+			
 				} else {
-					printError("Not connected!");
+					printError("Invalid number of parameters!");
 				}
-			} else {
-				printError("Invalid number of parameters!");
+			} else{
+				printError("Not logged in, please login");
 			}
 
 		} else if(tokens[0].equals("keyrange")) {
@@ -208,52 +214,107 @@ public class KVClient implements IKVClient {
 			/* M4 Implementation */
 		} else if (tokens[0].equals("create")) {
 			if (tokens.length == 3) {
-				String username = tokens[1];
-				String password = tokens[2];
-				try {
-					KVMessage res = kvStore.createUser(username, password);
-					printMsg("Server response: " + res.getStatus());
-				} catch (Exception e) {
-					printError("Failed to create user!");
-					logger.error("Failed to create user!", e);
+				if(kvStore != null && kvStore.isRunning()){
+					String username = tokens[1];
+					String password = tokens[2];
+                    try {
+                        KVMessage res = kvStore.createUser(username, password);
+						printMsg("Server response: " + res.getStatus());
+					} catch (SocketException e) {
+						printError("Server is down and has been disconnected!");
+						logger.info("Server is down and has been disconnected!", e);
+						disconnect();
+					} catch (Exception e) {
+                        printError("Failed to create user!");
+						logger.error("Failed to create user!", e);
+                    }
+				} else {
+					printError("Not connected!");
 				}
 			} else {
-				printError("Invalid number of parameters for create_user!");
+				printError("Invalid number of parameters!");
 			}
+		
 		} else if (tokens[0].equals("login")) {
 			if (tokens.length == 3) {
-				String username = tokens[1];
-				String password = tokens[2];
-				try {
-					KVMessage res = kvStore.login(username, password);
-					printMsg("Server response: " + res.getStatus());
-					isLoggedIn = true; 
-				} catch (Exception e) {
-					printError("Login failed!");
-					logger.error("Login failed!", e);
+				if(kvStore != null && kvStore.isRunning()){
+					String username = tokens[1];
+					String password = tokens[2];
+                    try {
+                        KVMessage res = kvStore.login(username, password);
+						printMsg("Server response: " + res.getStatus());
+						isLoggedIn = true;
+						user = username;
+					} catch (SocketException e) {
+						printError("Server is down and has been disconnected!");
+						logger.info("Server is down and has been disconnected!", e);
+						disconnect();
+					} catch (Exception e) {
+                        printError("Login failed!");
+						logger.error("Login failed!", e);
+                    }
+				} else {
+					printError("Not connected!");
 				}
 			} else {
 				printError("Invalid number of parameters for login!");
 			}
+		
 		} else if (tokens[0].equals("logout")) {
-			try {
-				if (kvStore != null && kvStore.isRunning() && isLoggedIn) {
-					KVMessage res = kvStore.logout(); // Ensure this method exists in KVStore and is implemented correctly
-					if (res.getStatus() == KVMessage.StatusType.LOGOUT_SUCCESS) {
-						isLoggedIn = false; // Reset login state only on successful logout
-						printMsg("Logged out successfully.");
-					} else {
-						printMsg("Logout failed with status: " + res.getStatus());
+			if(kvStore != null && kvStore.isRunning()){
+				if (isLoggedIn) {
+					try {
+						KVMessage res = kvStore.logout(); // Ensure this method exists in KVStore and is implemented correctly
+						if (res.getStatus() == KVMessage.StatusType.LOGOUT_SUCCESS) {
+							isLoggedIn = false; // Reset login state only on successful logout
+							user = null;
+							printMsg("Logged out successfully.");
+						} else {
+							printMsg("Logout failed with status: " + res.getStatus());
+						}
+					} catch (SocketException e) {
+						printError("Server is down and has been disconnected!");
+						logger.info("Server is down and has been disconnected!", e);
+						disconnect();
+					} catch (Exception e) {
+						printError("Logout failed!");
+						logger.error("Logout failed!", e);
 					}
 				} else {
-					printError("Not logged in or not connected.");
+					printError("Not logged in!");
 				}
-			} catch (Exception e) {
-				printError("Logout failed!");
-				logger.error("Logout failed!", e);
+			} else {
+				printError("Not connected!");
 			}
-		}
-		else {
+		
+		} else if(tokens[0].equals("reset_password")) {
+			if (isLoggedIn){
+				if(tokens.length == 2) {
+					if(kvStore != null && kvStore.isRunning()){
+						String new_password = tokens[1];
+						try {
+							KVMessage res = kvStore.resetPassword(user, new_password);
+							printMsg("Server response: " + res.getStatus());
+						} catch (SocketException e) {
+							printError("Server is down and has been disconnected!");
+							logger.info("Server is down and has been disconnected!", e);
+							disconnect();
+						} catch (Exception e) {
+							printError("Unable to perform reset_password request!");
+							logger.error("Unable to perform reset_password request!", e);
+						}
+					} else {
+						printError("Not connected!");
+					}
+			
+				} else {
+					printError("Invalid number of parameters!");
+				}
+			} else{
+				printError("Not logged in, please login");
+			}
+		
+		} else {
 			printError("Unknown command");
 			printHelp();
 		}
@@ -274,6 +335,7 @@ public class KVClient implements IKVClient {
 			kvStore = null;
 		}
 		isLoggedIn = false; // reset login state
+		user = null;
 	}
 
     private String parseValue(String cmd){
@@ -329,7 +391,17 @@ public class KVClient implements IKVClient {
         sb.append("\t\t\t retrieves the value for the key from the server\n");
 
 		sb.append(PROMPT).append("keyrange");
-        sb.append("\t\t\t retrieves key range of the KVServers\n");
+        sb.append("\t\t\t retrieves key range of the KVServers for writes\n");
+
+		sb.append(PROMPT).append("keyrange_read");
+        sb.append("\t\t\t retrieves key range of the KVServers for reads\n");
+
+		sb.append(PROMPT).append("create <username> <password>");
+        sb.append("\t creates a new user in the system\n");
+        sb.append(PROMPT).append("login <username> <password>");
+        sb.append("\t login to the system\n");
+		sb.append(PROMPT).append("logout");
+        sb.append("\t\t\t logout of the system\n");
         
         sb.append(PROMPT).append("logLevel");
         sb.append("\t\t\t changes the logLevel\n");

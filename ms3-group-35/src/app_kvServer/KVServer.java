@@ -859,27 +859,40 @@ public class KVServer implements IKVServer {
 		return no.toString(16);
 	}
 
-	public void createUser(String username, String password) {
-		try {
-			System.out.println("KVServer, USER RECEIVED: " + username); 
-			System.out.println("KVServer, PWD RECEIVED:" + password);
-			String hashedPwd = hashPassword(password);
-			if (userCredStorage == null) {
-				throw new IllegalStateException("User credentials storage has not been initialized.");
-			}
-			if (userCredStorage.containsKey(username)) {
-				throw new Exception("User already exists.");
-			}
-			userCredStorage.put(username, hashedPwd);
-			replicateData(username, hashedPwd, true);  
-			System.out.println("..indicator 1...");
-			System.out.println("KVServer, Successfully put the cred info");
-			saveUserCredentials();
-			printCredContents(); 
-		} catch (Exception e) {
-			System.out.println("Exception in createUser: " + e.getMessage());
-			e.printStackTrace();
+	public void createUser(String username, String password) throws Exception {
+		System.out.println("KVServer, USER RECEIVED: " + username); 
+		System.out.println("KVServer, PWD RECEIVED:" + password);
+		String hashedPwd = hashPassword(password);
+		if (userCredStorage == null) {
+			throw new IllegalStateException("User credentials storage has not been initialized.");
 		}
+		if (userCredStorage.containsKey(username)) {
+			throw new Exception("User already exists.");
+		}
+		userCredStorage.put(username, hashedPwd);
+		replicateData(username, hashedPwd, true);  
+		System.out.println("..indicator 1...");
+		System.out.println("KVServer, Successfully put the cred info");
+		saveUserCredentials();
+		printCredContents(); 
+	}
+
+	public void updatePassword(String username, String password) throws Exception {
+		System.out.println("KVServer, USER RECEIVED: " + username); 
+		System.out.println("KVServer, PWD RECEIVED:" + password);
+		String hashedPwd = hashPassword(password);
+		if (userCredStorage == null) {
+			throw new IllegalStateException("User credentials storage has not been initialized.");
+		}
+		if (!userCredStorage.containsKey(username)) {
+			throw new Exception("User doesn't exist.");
+		}
+		userCredStorage.put(username, hashedPwd);
+		replicateData(username, hashedPwd, true);  
+		System.out.println("..indicator 1...");
+		System.out.println("KVServer, Successfully put the cred info");
+		saveUserCredentials();
+		printCredContents(); 
 	}
 	
 	

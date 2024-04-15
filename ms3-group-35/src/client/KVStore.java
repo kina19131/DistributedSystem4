@@ -105,12 +105,12 @@ public class KVStore implements KVCommInterface {
 	// }
 
 	public KVMessage createUser(String username, String password) throws Exception {
-		logger.info("Sending CREATE_USER request for username: " + username);
-		SimpleKVMessage response = sendMessageWithRetry(StatusType.CREATE_USER, username, password);
+		logger.info("Sending CREATE request for username: " + username);
+		SimpleKVMessage response = sendMessageWithRetry(StatusType.CREATE, username, password);
 		if (response != null) {
-			logger.info("Received response for CREATE_USER: " + response.getStatus());
+			logger.info("Received response for CREATE: " + response.getStatus());
 		} else {
-			logger.error("Received null response for CREATE_USER");
+			logger.error("Received null response for CREATE");
 		}
 		return response;
 	}
@@ -129,6 +129,17 @@ public class KVStore implements KVCommInterface {
 	public KVMessage logout() throws Exception {
 		logger.info("Sending LOGOUT request");
 		SimpleKVMessage response = sendMessageWithRetry(StatusType.LOGOUT, null, null);
+		if (response != null) {
+			logger.info("Received response for LOGOUT: " + response.getStatus());
+		} else {
+			logger.error("Received null response for LOGOUT");
+		}
+		return response;
+	}
+
+	public KVMessage resetPassword(String username, String password) throws Exception {
+		logger.info("Sending LOGOUT request");
+		SimpleKVMessage response = sendMessageWithRetry(StatusType.RESET_PASSWORD, username, password);
 		if (response != null) {
 			logger.info("Received response for LOGOUT: " + response.getStatus());
 		} else {
