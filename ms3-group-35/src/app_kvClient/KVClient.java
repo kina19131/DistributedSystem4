@@ -237,8 +237,17 @@ public class KVClient implements IKVClient {
 			}
 		} else if (tokens[0].equals("logout")) {
 			try {
-				KVMessage res = kvStore.logout();
-				printMsg("Server response: " + res.getStatus());
+				if (kvStore != null && kvStore.isRunning() && isLoggedIn) {
+					KVMessage res = kvStore.logout(); // Ensure this method exists in KVStore and is implemented correctly
+					if (res.getStatus() == KVMessage.StatusType.LOGOUT_SUCCESS) {
+						isLoggedIn = false; // Reset login state only on successful logout
+						printMsg("Logged out successfully.");
+					} else {
+						printMsg("Logout failed with status: " + res.getStatus());
+					}
+				} else {
+					printError("Not logged in or not connected.");
+				}
 			} catch (Exception e) {
 				printError("Logout failed!");
 				logger.error("Logout failed!", e);

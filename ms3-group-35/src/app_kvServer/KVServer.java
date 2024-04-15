@@ -137,6 +137,7 @@ public class KVServer implements IKVServer {
 		this.activeClientHandlers = Collections.synchronizedSet(new HashSet<ClientHandler>());
 		this.clientHandlerThreads = Collections.synchronizedList(new ArrayList<Thread>());
 		this.storage = new ConcurrentHashMap<String, String>();
+		this.userCredStorage = new ConcurrentHashMap<String, String>();
 
 		
 
@@ -164,9 +165,11 @@ public class KVServer implements IKVServer {
 
 	private void addShutdownHook() {
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+
 			@Override
 			public void run() {
 				System.out.println("Shutdown hook triggered (^C).");
+
 				// Send shutdown message each client
 				synchronized (activeClientHandlers) {
 					for (ClientHandler handler : activeClientHandlers) {
@@ -647,9 +650,9 @@ public class KVServer implements IKVServer {
 	}
 
 	private void printCredContents() {
-		System.out.println("Current Storage Contents:");
+		System.out.println("Current Cred Contents:");
 		for (Map.Entry<String, String> entry : userCredStorage.entrySet()) {
-			System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+			System.out.println("Stored_User: " + entry.getKey() + ", Stored_Pwd: " + entry.getValue());
 		}
 	}
 	
@@ -736,6 +739,7 @@ public class KVServer implements IKVServer {
 
 	public void stopServer() {
 		saveUserCredentials();
+		saveDataToStorage();
 		running = false;
 		try {
 			if (serverSocket != null && !serverSocket.isClosed()) {
@@ -765,7 +769,7 @@ public class KVServer implements IKVServer {
     }
 
 
-	private void saveDataToStorage() {
+	public void saveDataToStorage() {
 		String fileName = "kvstorage_" + serverName + ".txt";
 		String filePath = storagePath + File.separator + fileName;
 
@@ -831,27 +835,37 @@ public class KVServer implements IKVServer {
 		return no.toString(16);
 	}
 
-	public void createUser(String username, String password) throws Exception {
-		System.out.println("KVServer, USER RECIEVED: " + username); 
-		System.out.println("KVSerer, PWD RECIEVED:" + password);
-		// String hashedPassword = hashPassword(password);
-		// System.out.print("HASHED PWD: "+ hashedPassword);
-		if (userCredStorage.containsKey(username)) {
-			throw new Exception("User already exists.");
+	public void createUser(String username, String password) {
+		try {
+			System.out.println("KVServer, USER RECEIVED: " + username); 
+			System.out.println("KVServer, PWD RECEIVED:" + password);
+			String hashedPwd = hashPassword(password);
+			if (userCredStorage == null) {
+				throw new IllegalStateException("User credentials storage has not been initialized.");
+			}
+			if (userCredStorage.containsKey(username)) {
+				throw new Exception("User already exists.");
+			}
+			userCredStorage.put(username, hashedPwd);
+			System.out.println("..indicator 1...");
+			System.out.println("KVServer, Successfully put the cred info");
+			saveUserCredentials();
+			printCredContents(); 
+		} catch (Exception e) {
+			System.out.println("Exception in createUser: " + e.getMessage());
+			e.printStackTrace();
 		}
-		System.out.println("..inidcator 1...");
-		userCredStorage.put(username, password);
-		System.out.println("KVServer, Successfully put the cred info");
-		saveUserCredentials();
-		printCredContents(); 
 	}
+	
+	
+	
 	
 	public boolean authenticateUser(String username, String password) throws Exception {
 		String hashedPassword = hashPassword(password);
 		return userCredStorage.getOrDefault(username, "").equals(hashedPassword);
 	}
 
-	private void saveUserCredentials() {
+	public void saveUserCredentials() {
 		String filePath = storagePath + File.separator + "userCredStorage.txt";
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
 			for (Entry<String, String> entry : userCredStorage.entrySet()) {

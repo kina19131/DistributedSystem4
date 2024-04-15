@@ -104,7 +104,7 @@ public class ClientHandler implements Runnable {
                         }
                         SimpleKVCommunication.sendMessage(responseMessage, output, LOGGER);
                     
-                    // CREATE USER LOGIN 
+                    // CREATE USER  
                     } else if (requestMessage.getStatus() == StatusType.CREATE){
                         try {
                             String username = requestMessage.getKey();
@@ -119,6 +119,7 @@ public class ClientHandler implements Runnable {
                             responseMessage = new SimpleKVMessage(StatusType.CREATE_ERROR, null);
                         }
                         SimpleKVCommunication.sendMessage(responseMessage, output, LOGGER);
+                    // USER LOGIN 
                     } else if (requestMessage.getStatus() == StatusType.LOGIN){
                         try {
                             String username = requestMessage.getKey();
@@ -131,12 +132,20 @@ public class ClientHandler implements Runnable {
                         }
                         SimpleKVCommunication.sendMessage(responseMessage, output, LOGGER);
 
-                    } else if (requestMessage.getStatus() == StatusType.LOGOUT){
-                         // Handle logout - depending on how you manage sessions this might just be confirming the action.
+                    //LOGOUT 
+                } else if (requestMessage.getStatus() == StatusType.LOGOUT) {
+                    try {
+                        // Assume additional cleanup or user session termination tasks are handled here.
+                        server.saveDataToStorage();  // Explicitly save all current data
+                        server.saveUserCredentials(); // Explicitly save all user credentials
                         responseMessage = new SimpleKVMessage(StatusType.LOGOUT_SUCCESS, null);
-                        SimpleKVCommunication.sendMessage(responseMessage, output, LOGGER);
+                        LOGGER.info("Logout successful, data saved.");
+                    } catch (Exception e) {
+                        LOGGER.error("Error during logout", e);
+                        responseMessage = new SimpleKVMessage(StatusType.LOGOUT_ERROR, null);
+                    }
+                    SimpleKVCommunication.sendMessage(responseMessage, output, LOGGER);          
                     
-
                     // PUT/GET requests
                     } else {
                         System.out.println("HELLO... WE ARE DOING PUT/GET REQ for server " + server.getServerName());
