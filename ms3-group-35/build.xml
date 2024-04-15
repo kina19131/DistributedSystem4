@@ -131,12 +131,23 @@
 
   <!-- run test cases -->
   <target name="test" depends="build">
+    <delete>
+      <fileset dir="." includes="kvstorage_*.txt,userCredStorage_*.txt"/>
+    </delete>
     <junit>
       <classpath refid="project.classpath" />
       <formatter type="brief" usefile="false" />
-      <test name="testing.AllTests_M3" />
+      <test name="testing.AllTests_M4" />
     </junit>
   </target>
+
+  <!-- post testing cleanup -->
+  <target name="test-cleanup">
+    <delete>
+        <fileset dir="." includes="kvstorage_*.txt,userCredStorage_*.txt"/>
+    </delete>
+  </target>
+
 
   <target name="run" >
     <java classname="${main.class}" classpathref="class.path"/>
