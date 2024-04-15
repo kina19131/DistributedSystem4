@@ -559,6 +559,12 @@ public class KVServer implements IKVServer {
 				List<ECSNode> newSuccessors = deserializeSuccessors(parts[2]);
 				updateSuccessorList(newSuccessors);
 				break;
+			
+			case "USER_CRED":
+				System.out.println("KVServer, USER_CRED UPDATE:" + command); 
+				userCredStorage.put(parts[2], parts[3]); 
+				System.out.println("KVServer, successfully USER_CRED PROPOAGATED");
+				break; 
 					
 			case "PUT":
 				try {
@@ -592,28 +598,13 @@ public class KVServer implements IKVServer {
 			LOGGER.info("Storage updated for key: " + key);
 			// Trigger replication only if the PUT request is not a replication itself and successors exist
 			if (!isReplication && successors != null && !successors.isEmpty()) {
-				replicateData(key, value);
+				replicateData(key, value, false);
 			}
 		}
 		printStorageContents();
 		saveDataToStorage();
 	}
-	
-	private void replicateData(String key, String value) {
-		LOGGER.info("Starting replication for key: " + key);
-		for (ECSNode successor : successors) {
-			try {
-				LOGGER.info("Replicating key: " + key + " to " + successor.getNodeName());
-				SimpleKVCommunication.ServerToServer(StatusType.PUT, key, value, successor, true, LOG4J_LOGGER);
-			} catch (Exception e) {
-				LOGGER.severe("Error replicating data to " + successor.getNodeName() + ": " + e.getMessage());
-			}
-		}
-	}
-	
-	
-
-
+		
 	private void updateSuccessorList(List<ECSNode> newSuccessors) {
 		this.successors = newSuccessors;
 		LOGGER.info("Updated successors list: " + this.successors);
@@ -827,7 +818,40 @@ public class KVServer implements IKVServer {
 		LOGGER.info("Server Socket Closed");
 	}
 
+
 	// ===================== M4 ===================== // 
+	
+	// private void replicateData(String key, String value) {
+	// 	LOGGER.info("Starting replication for key: " + key);
+	// 	for (ECSNode successor : successors) {
+	// 		try {
+	// 			LOGGER.info("Replicating key: " + key + " to " + successor.getNodeName());
+	// 			SimpleKVCommunication.ServerToServer(StatusType.PUT, key, value, successor, true, LOG4J_LOGGER);
+	// 		} catch (Exception e) {
+	// 			LOGGER.severe("Error replicating data to " + successor.getNodeName() + ": " + e.getMessage());
+	// 		}
+	// 	}
+	// }
+
+
+	private void replicateData(String key, String value, boolean isUserCred) {
+		System.out.println("Starting replication for key: " + key + ", Is User Cred: " + isUserCred);
+		for (ECSNode successor : successors) {
+			try {
+				if (isUserCred) {
+					System.out.println("Replicating USERNAME: " + key + " to " + successor.getNodeName());
+					// Here we use a hypothetical method that handles user credentials
+					SimpleKVCommunication.ServerToServerUserCred(key, value, successor, LOG4J_LOGGER);
+				} else {
+					System.out.println("Replicating key: " + key + " to " + successor.getNodeName());
+					SimpleKVCommunication.ServerToServer(StatusType.PUT, key, value, successor, true, LOG4J_LOGGER);
+				}
+			} catch (Exception e) {
+				LOGGER.severe("Error replicating data to " + successor.getNodeName() + ": " + e.getMessage());
+			}
+		}
+	}
+
 	private String hashPassword(String password) throws NoSuchAlgorithmException {
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
 		byte[] hashedBytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
@@ -847,6 +871,7 @@ public class KVServer implements IKVServer {
 				throw new Exception("User already exists.");
 			}
 			userCredStorage.put(username, hashedPwd);
+			replicateData(username, hashedPwd, true);  
 			System.out.println("..indicator 1...");
 			System.out.println("KVServer, Successfully put the cred info");
 			saveUserCredentials();
@@ -858,15 +883,15 @@ public class KVServer implements IKVServer {
 	}
 	
 	
-	
-	
 	public boolean authenticateUser(String username, String password) throws Exception {
 		String hashedPassword = hashPassword(password);
 		return userCredStorage.getOrDefault(username, "").equals(hashedPassword);
 	}
 
 	public void saveUserCredentials() {
-		String filePath = storagePath + File.separator + "userCredStorage.txt";
+		String fileName = "userCredStorage_" + serverName + ".txt";
+		String filePath = storagePath + File.separator + fileName;
+
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
 			for (Entry<String, String> entry : userCredStorage.entrySet()) {
 				writer.write(entry.getKey() + "," + entry.getValue());
@@ -878,8 +903,10 @@ public class KVServer implements IKVServer {
 	}
 	
 	private void loadUserCredentials() {
-		String filePath = storagePath + File.separator + "userCredStorage.txt";
+		String fileName = "userCredStorage_" + serverName + ".txt";
+		String filePath = storagePath + File.separator + fileName;
 		File file = new File(filePath);
+	
 		if (file.exists()) {
 			try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 				String line;
@@ -892,6 +919,7 @@ public class KVServer implements IKVServer {
 			} catch (IOException e) {
 				LOGGER.info("Error loading user credentials");
 			}
+			System.out.println("KVServer, loadUserCred Successful");
 		}
 	}
 
