@@ -147,21 +147,19 @@ public final class SimpleKVCommunication {
 	}
 
 	
-	// public static void ServerToServer(StatusType command, String key, String value, IECSNode node, boolean isReplication, Logger logger) {
-	// 	String actualCommand = SECRET_TOKEN + " " + command + " " + key + (value != null ? (" " + value) : "") + " "+ isReplication ;
-	// 	System.out.println("ServerToServer:" + actualCommand); 
-
-	// 	logger.info("ServerToServer, Preparing to send command to KVServer: " + actualCommand);
-
-	// 	// Send the message using the socket connection
-	// 	try (Socket socket = new Socket(node.getNodeHost(), node.getNodePort());
-    //         PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
-    //         out.println(actualCommand);
-    //         logger.info("ServerToServer Called: " + command + ", " + key + ", " + value);
-    //     } catch (IOException e) {
-    //         logger.error("Error sending to node: " + e.getMessage());
-    //     }
-	// }
+	public static void ServerToServerUserCred(String username, String passwordHash, IECSNode node, Logger logger) {
+		String command = SECRET_TOKEN + " USER_CRED " + username + " " + passwordHash;
+		logger.info("Sending user credential to server: " + command);
+	
+		// Use socket to send the command to the specified node
+		try (Socket socket = new Socket(node.getNodeHost(), node.getNodePort());
+			 PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+			out.println(command);
+			logger.info("Sent user credential update for: " + username);
+		} catch (IOException e) {
+			logger.error("Error sending user credential to node: " + node.getNodeName(), e);
+		}
+	}	
 
 	
 }
