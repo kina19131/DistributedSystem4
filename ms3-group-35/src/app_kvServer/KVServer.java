@@ -836,20 +836,31 @@ public class KVServer implements IKVServer {
 
 	private void replicateData(String key, String value, boolean isUserCred) {
 		System.out.println("Starting replication for key: " + key + ", Is User Cred: " + isUserCred);
-		for (ECSNode successor : successors) {
-			try {
-				if (isUserCred) {
-					System.out.println("Replicating USERNAME: " + key + " to " + successor.getNodeName());
-					// Here we use a hypothetical method that handles user credentials
-					SimpleKVCommunication.ServerToServerUserCred(key, value, successor, LOG4J_LOGGER);
-				} else {
+		
+		if (isUserCred) {
+			Set<String> allServers = metadata.getAllServerHosts();
+			for (String nodename : allServers) {
+				if (!nodename.equals(serverName)) {
+					try {
+						System.out.println("Replicating USERNAME: " + key + " to " + nodename);
+						// Here we use a hypothetical method that handles user credentials
+						SimpleKVCommunication.ServerToServerUserCred(key, value, nodename, LOG4J_LOGGER);
+					} catch (Exception e) {
+						LOGGER.severe("Error replicating data to " + nodename + ": " + e.getMessage());
+					}
+				}
+			}
+		} else {
+			for (ECSNode successor : successors) {
+				try {
 					System.out.println("Replicating key: " + key + " to " + successor.getNodeName());
 					SimpleKVCommunication.ServerToServer(StatusType.PUT, key, value, successor, true, LOG4J_LOGGER);
+				} catch (Exception e) {
+					LOGGER.severe("Error replicating data to " + successor.getNodeName() + ": " + e.getMessage());
 				}
-			} catch (Exception e) {
-				LOGGER.severe("Error replicating data to " + successor.getNodeName() + ": " + e.getMessage());
-			}
+			}	
 		}
+		
 	}
 
 	private String hashPassword(String password) throws NoSuchAlgorithmException {

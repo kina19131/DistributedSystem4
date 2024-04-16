@@ -147,17 +147,20 @@ public final class SimpleKVCommunication {
 	}
 
 	
-	public static void ServerToServerUserCred(String username, String passwordHash, IECSNode node, Logger logger) {
+	public static void ServerToServerUserCred(String username, String passwordHash, String nodename, Logger logger) {
 		String command = SECRET_TOKEN + " USER_CRED " + username + " " + passwordHash;
+		String[] nodeParts = nodename.split(":", 2);
+		String host = nodeParts[0];
+		Integer port = Integer.parseInt(nodeParts[1]);
 		logger.info("Sending user credential to server: " + command);
 	
 		// Use socket to send the command to the specified node
-		try (Socket socket = new Socket(node.getNodeHost(), node.getNodePort());
+		try (Socket socket = new Socket(host, port);
 			 PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 			out.println(command);
 			logger.info("Sent user credential update for: " + username);
 		} catch (IOException e) {
-			logger.error("Error sending user credential to node: " + node.getNodeName(), e);
+			logger.error("Error sending user credential to node: " + nodename, e);
 		}
 	}	
 

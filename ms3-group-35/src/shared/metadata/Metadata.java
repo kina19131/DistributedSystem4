@@ -1,9 +1,6 @@
 package shared.metadata;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*; 
 
 import ecs.ConsistentHashing;
 
@@ -40,6 +37,11 @@ public class Metadata {
     /* Get metadata in string format */
     public String getMetadataString() {
         return metadataStr;
+    }
+
+    /* Returns all server hosts in the metadata */
+    public Set<String> getAllServerHosts() {
+        return metadataStore.keySet();
     }
 
     /* Returns the list of hash ranges the server is responsible for */
