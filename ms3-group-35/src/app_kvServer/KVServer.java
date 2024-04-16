@@ -465,7 +465,6 @@ public class KVServer implements IKVServer {
 	
 	@Override
 	public void run() {
-		loadUserCredentials(); // M4
 		running = initializeServer();
 		
 		if (serverSocket == null || !running) {
@@ -474,6 +473,7 @@ public class KVServer implements IKVServer {
 		}
 		LOGGER.info("KV Server listening on port " + getPort());
 
+		loadUserCredentials(); // M4
 		loadDataFromStorage(); // Persistent storage
 
 		while (isRunning()) {
@@ -565,6 +565,12 @@ public class KVServer implements IKVServer {
 				userCredStorage.put(parts[2], parts[3]); 
 				System.out.println("KVServer, successfully USER_CRED PROPOAGATED");
 				break; 
+
+			case "SEND_USER_INFO":
+				System.out.println("KVServer, SEND_USER_INFO:" + command); 
+				sendAllUserInfo(parts[2]); 
+				System.out.println("KVServer, successfully USER_CRED PROPOAGATED");
+				break;
 					
 			case "PUT":
 				try {
@@ -861,6 +867,20 @@ public class KVServer implements IKVServer {
 			}	
 		}
 		
+	}
+
+	private void sendAllUserInfo(String nodename) {
+		for (Map.Entry<String, String> userEntry : userCredStorage.entrySet()) {
+			String key = userEntry.getKey(); // username
+			String value = userEntry.getValue(); // password
+			try {
+				System.out.println("Sending USERNAME: " + key + " to " + nodename);
+				// Here we use a hypothetical method that handles user credentials
+				SimpleKVCommunication.ServerToServerUserCred(key, value, nodename, LOG4J_LOGGER);
+			} catch (Exception e) {
+				LOGGER.severe("Error sending data to " + nodename + ": " + e.getMessage());
+			}
+		}
 	}
 
 	private String hashPassword(String password) throws NoSuchAlgorithmException {

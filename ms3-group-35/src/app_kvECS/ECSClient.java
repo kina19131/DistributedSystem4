@@ -83,7 +83,15 @@ public class ECSClient implements IECSClient {
     public IECSNode getNodeByName(String nodeName) {
         return nodes.get(nodeName);
     }
-    
+
+    private ECSNode getSingleNode() {
+        if (nodes.isEmpty()) {
+            return null; // Return null if the map is empty
+        }
+        String firstKey = nodes.keySet().iterator().next(); // Directly get the first key using an iterator
+        ECSNode node = (ECSNode) nodes.get(firstKey);
+        return node;
+    }
 
     private String getServerHash(String ip, int port) {
         return getMD5Hash(ip + ":" + port);
@@ -593,10 +601,12 @@ public class ECSClient implements IECSClient {
         String nodeHost = parts[0];
         int nodePort = Integer.parseInt(parts[1]);
 
-
         if (!nodes.containsKey(nodeName)){
             ECSNode node = new ECSNode(nodeName, nodeHost, nodePort, cacheStrategy, cacheSize, lowHashRange, highHashRange);
             setWriteLock(node, true);
+
+            // User info update
+            sendUserInfo(nodeName);
         
             ecsHashRing.addNode(node); // Delegates to HashRing to handle hash and rebalance
             nodes.put(nodeName, node); // Keep track of nodes
@@ -860,6 +870,23 @@ public class ECSClient implements IECSClient {
             String[] hashRange = ecsHashRing.getHashRangeForNode(node.getNodeName());
             if (hashRange != null) {
                 sendReadMetadata(node); // Send updated metadata
+            }
+        }
+    }
+
+    /* M4 - update user data information when new node is added */
+    private void sendUserInfo(String newServerName) {
+        ECSNode node = getSingleNode();
+        if (node != null) {
+            String command = ECS_SECRET_TOKEN + " SEND_USER_INFO " + newServerName;
+            System.out.println("Sending command to KVServer: " + command);
+            
+            try (Socket socket = new Socket(node.getNodeHost(), node.getNodePort());
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
+                out.println(command);
+                System.out.println("Updated Metadata sent successfully to: " + node.getNodeName());
+            } catch (IOException e) {
+                System.err.println("Error sending updated metadata to node: " + e.getMessage());
             }
         }
     }
