@@ -1,6 +1,0 @@
-2024-04-16 22:50:51,368 ERROR [Thread-19] root: Error processing user creation
-java.lang.Exception: User already exists.
-	at app_kvServer.KVServer.createUser(KVServer.java:901)
-	at app_kvServer.ClientHandler.run(ClientHandler.java:115)
-	at java.base/java.lang.Thread.run(Thread.java:829)
-2024-04-16 22:50:51,470 ERROR [Thread-0] app_kvECS.ECSClient: No target node found for key
