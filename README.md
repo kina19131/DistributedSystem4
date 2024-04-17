@@ -6,6 +6,8 @@ In Milestone 4, we enhanced our distributed with the introduction of a user auth
 ## Running the System
 To run the system, you need to be inside the ms4-group-35 directory.
 
+First build the system by running `ant`
+
 To start the ECS, open a terminal and run: `java -jar m2-ecs.jar`
 
 To start a KV Server, open a terminal and run: `java -jar m2-server.jar -p <port number>`
