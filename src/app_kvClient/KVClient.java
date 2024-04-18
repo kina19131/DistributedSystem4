@@ -402,6 +402,8 @@ public class KVClient implements IKVClient {
         sb.append("\t login to the system\n");
 		sb.append(PROMPT).append("logout");
         sb.append("\t\t\t logout of the system\n");
+		sb.append(PROMPT).append("reset_password <password>");
+        sb.append("\t resets the current user's password\n");
         
         sb.append(PROMPT).append("logLevel");
         sb.append("\t\t\t changes the logLevel\n");
